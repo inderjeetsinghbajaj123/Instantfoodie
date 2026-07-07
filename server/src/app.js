@@ -20,14 +20,13 @@ app.use(
   }),
 );
 
-app.use(cookieParser()); // to read cookies (used for login token)
-app.use(express.json()); // to parse incoming JSON requests
+app.use(cookieParser()) // to read cookies (used for login token)
+app.use(express.json()) // to parse incoming JSON requests
+app.use(express.urlencoded({extended:true}))//to parse the data sent through form
 
 // ---------- Routes ----------
 
-// Auth routes -> login, register, logout
-// import authRouter from "./routes/auth.route.js"
-// app.use("/api/auth", authRouter)
+app.use("/api/auth", authRouter)
 
 // // User routes -> profile, update profile
 // import userRouter from "./routes/user.route.js"
