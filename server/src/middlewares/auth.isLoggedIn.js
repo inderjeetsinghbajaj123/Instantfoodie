@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import User from '../models/user.js'
 
-module.exports.isLoggedIn = async function (req,res,next) {
+export const isLoggedIn = async function (req,res,next) {
     try{
         if(!req.cookies.Token)
         {

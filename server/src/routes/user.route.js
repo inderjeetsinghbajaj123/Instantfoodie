@@ -1,13 +1,13 @@
 import { Router } from "express";
 import { getProfile, updateProfile } from "../controllers/user.controller.js";
-import authMiddleware from "../middleware/auth.middleware.js";
+import {isLoggedIn} from "../middlewares/auth.isLoggedIn.js";
 
 const router = Router();
 
 // Get logged-in user profile
-router.get("/profile", authMiddleware, getProfile);
+router.get("/profile", isLoggedIn, getProfile);
 
 // Update logged-in user profile
-router.put("/profile", authMiddleware, updateProfile);
+router.put("/profile", isLoggedIn, updateProfile);
 
 export default router;
