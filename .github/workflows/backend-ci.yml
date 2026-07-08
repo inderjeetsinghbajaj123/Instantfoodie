@@ -1,4 +1,4 @@
-name: Instantfoodie Backend CI
+name: Instantfoodie Full Stack CI
 
 on:
   push:
@@ -7,7 +7,9 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  build:
+
+  backend:
+    name: Backend CI
     runs-on: ubuntu-latest
 
     steps:
@@ -17,19 +19,41 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '22' # Matches your Node v22 environment
+        node-version: '22'
 
     - name: Install server dependencies
       working-directory: ./server
       run: npm ci
 
-    - name: Verify build runs without syntax errors
+    - name: Check backend syntax
       working-directory: ./server
       env:
-        # Provide dummy values so the app initializes without crashing on missing env variables
         JWT_SECRET: ci_test_secret_key_12345
         NODE_ENV: test
       run: |
-        # This checks the entry files for compile errors without spinning up the live listening server permanently
         node --check src/app.js
         node --check index.js
+
+
+  frontend:
+    name: Frontend CI
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+
+    - name: Install client dependencies
+      working-directory: ./client
+      run: npm ci
+
+    - name: Build frontend
+      working-directory: ./client
+      env:
+        VITE_API_URL: http://localhost:3000
+      run: npm run build

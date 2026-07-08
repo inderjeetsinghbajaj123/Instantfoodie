@@ -11,6 +11,10 @@ import foodItemsRouter from './routes/foodItem.route.js'
 
 const app = express();
 app.set("trust proxy", 1);
+app.use(express.json()); // to parse incoming JSON requests
+
+app.use(cookieParser()); // to read cookies (used for login token
+app.use(express.urlencoded({ extended: true })); //to parse the data sent through form
 
 // Allow requests from frontend (React app) with cookies enabled
 app.use(
@@ -24,9 +28,6 @@ app.use(
   }),
 );
 
-app.use(cookieParser()); // to read cookies (used for login token)
-app.use(express.json()); // to parse incoming JSON requests
-app.use(express.urlencoded({ extended: true })); //to parse the data sent through form
 
 // ---------- Routes ----------
 
