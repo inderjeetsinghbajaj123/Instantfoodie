@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getProfile, updateProfile } from "../controllers/user.controller.js";
-// Fix the folder name here by adding the 's'
+import { getProfile, updateProfile } from "../controllers/user.controllers.js";
+// Fix the folder name here by adding the 's' - fixed 
 import authMiddleware from "../middlewares/auth.middleware.js"; 
 
 const router = Router();
