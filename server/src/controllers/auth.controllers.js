@@ -11,7 +11,7 @@ const cookieOptions = {
 
 export const userRegister = async (req, res) => {
     // Expecting fullName from the request body
-    let { fullName, email, password } = req.body; 
+    let { fullName, email, password,role} = req.body; 
     try {
         if (!fullName || !email || !password) {
             return res.status(400).json({ message: 'Please fill all the fields' });
@@ -30,10 +30,11 @@ export const userRegister = async (req, res) => {
         const createUser = await User.create({
             fullName,
             email,
-            password: hash
+            password: hash,
+            role:role||"user" // Default role is "user" if not provided
         });
 
-        const token = Token(createUser.email, createUser._id);
+        const token = Token(createUser.email, createUser._id,createUser.role);
         res.cookie("Token", token, cookieOptions);
 
         return res.status(201).json({
@@ -41,7 +42,8 @@ export const userRegister = async (req, res) => {
             user: {
                 id: createUser._id,
                 fullName: createUser.fullName,
-                email: createUser.email
+                email: createUser.email,
+                role: createUser.role
             }
         });
     } catch (e) {
@@ -65,7 +67,7 @@ export const userLogin = async (req, res) => {
         let check = await bcrypt.compare(password, user.password);
         if (check) {
             // Token utility is synchronous, no await needed
-            const token = Token(user.email, user._id);
+            const token = Token(user.email, user._id,user.role);
             
             res.cookie("Token", token, cookieOptions);
             
@@ -74,7 +76,8 @@ export const userLogin = async (req, res) => {
                 user: {
                     id: user._id,
                     fullName: user.fullName,
-                    email: user.email
+                    email: user.email,
+                    role: user.role
                 }
             });
         }
