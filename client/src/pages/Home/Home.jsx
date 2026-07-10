@@ -1,5 +1,20 @@
-function Home() {
-  return <h1>Home Page</h1>;
-}
+import Navbar from "../../components/Navbar";
+import PromoCarousel from "../../components/Promo";
+import CategorySection from "../../components/CategorySection";
+import Footer from "../../components/Footer";
+import { useCart } from "../../context/CartContext";
+
+const Home = () => {
+  const { cartCount } = useCart();
+
+  return (
+    <div className="min-h-screen bg-white flex flex-col">
+      <Navbar cartCount={cartCount} />
+      <PromoCarousel />
+      <CategorySection />
+      <Footer />
+    </div>
+  );
+};
 
 export default Home;
