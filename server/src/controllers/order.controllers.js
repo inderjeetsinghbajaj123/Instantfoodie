@@ -3,6 +3,7 @@ import Order from '../models/order.js';
 import foodItems from '../models/foodItem.js';
 import Restaurant from '../models/restaurant.js';
 import { get } from 'http';
+import { validTransition } from '../utils/orderStatusValidator.js';
 export const PlaceOrder = async (req, res) => {
     try {
         let { restaurantId, items, deliveryAddress } = req.body; // items return array consisting of objects returning foodItem id and quantity
@@ -27,34 +28,34 @@ export const PlaceOrder = async (req, res) => {
 
         for (let item of items) {
 
-    console.log("Received food id:", item.foodItemId);
+            console.log("Received food id:", item.foodItemId);
 
-    let findItem = await foodItems.findById(item.foodItemId);
+            let findItem = await foodItems.findById(item.foodItemId);
 
-    console.log("Found food:", findItem);
+            console.log("Found food:", findItem);
 
-    if (!findItem) {
-        return res.status(404).json({
-            success: false,
-            message: "No food item found",
-        });
-    }
+            if (!findItem) {
+                return res.status(404).json({
+                    success: false,
+                    message: "No food item found",
+                });
+            }
 
-    if (!findItem.isAvailable) {
-        return res.status(404).json({
-            success: false,
-            message: "Some items are out of stock",
-        });
-    }
+            if (!findItem.isAvailable) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Some items are out of stock",
+                });
+            }
 
-    orderItems.push({
-        foodItemId: item.foodItemId,
-        name: findItem.name,
-        price: findItem.price,
-        quantity: item.quantity,
-        subtotal: item.quantity * findItem.price
-    });
-}
+            orderItems.push({
+                foodItemId: item.foodItemId,
+                name: findItem.name,
+                price: findItem.price,
+                quantity: item.quantity,
+                subtotal: item.quantity * findItem.price
+            });
+        }
         let totalAmount = orderItems.reduce((acc, ci) => acc + ci.subtotal, 0)
 
         let placeOrder = await Order.create({
@@ -86,6 +87,10 @@ export const PlaceOrder = async (req, res) => {
 
 export const getRestaurantOrders = async (req, res) => {
     try {
+
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 20;
+        const skip = (page - 1) * limit;
         const user = req.user
         if (user.role !== 'restaurant') {
             return res.status(403).json({
@@ -102,7 +107,7 @@ export const getRestaurantOrders = async (req, res) => {
             })
         }
 
-        const getOrders = await Order.find({ restaurantId: getRestaurant._id })
+        const getOrders = await Order.find({ restaurantId: getRestaurant._id }).sort({ createdAt: -1 }).skip(skip).limit(limit).populate('userId', 'name email') // display only 20 orders per page and sort by latest order first with there person details like name and email
 
         if (getOrders.length === 0) {
             return res.status(200).json({
@@ -152,46 +157,47 @@ export const updateOrderStatus = async (req, res) => {
             })
         }
 
-        const restaurant = await Restaurant.findOne({owner:user._id})
+        const restaurant = await Restaurant.findOne({ owner: user._id })
         if (!restaurant) {
             return res.status(403).json({
                 success: false,
                 message: "Restuarant not found"
             })
         }
-        
+
         const order = await Order.findOne({ orderId })
 
         if (!order) {
-            return res.status(403).json({
+            return res.status(404).json({
                 success: false,
                 message: "No order of this id is avalible",
             })
         }
 
-        if (order.restaurantId.toString === restaurant._id) {
+        if (order.restaurantId.toString() !== restaurant._id.toString()) {
             return res.status(400).json({
                 success: false,
                 message: "Unauthorized access",
             })
         }
 
-        if (order.orderStatus === "Delivered") {
+        const validateTransitionStatus = validTransition(order.orderStatus, orderStatus)
+        if (!validateTransitionStatus) {
             return res.status(400).json({
                 success: false,
-                message: "Order is already Completed",
+                message: `Invalid order Status passed`,
             })
         }
 
         const updateStatus = await Order.findByIdAndUpdate(
             order._id,
-            {orderStatus},
+            { orderStatus },
             { new: true, runValidators: true }
         )
 
         return res.status(200).json({
             success: true,
-            Status:updateStatus 
+            Order: updateStatus
         });
 
     } catch (error) {
@@ -205,26 +211,26 @@ export const updateOrderStatus = async (req, res) => {
 }
 
 export const getMyOrders = async (req, res) => {
-  try {
-    if (req.user.role !== "user") {
-      return res.status(403).json({
-        success: false,
-        message: "Only users can view their orders",
-      });
+    try {
+        if (req.user.role !== "user") {
+            return res.status(403).json({
+                success: false,
+                message: "Only users can view their orders",
+            });
+        }
+
+        const orders = await Order.find({
+            userId: req.user._id,
+        }).sort({ createdAt: -1 });
+
+        return res.status(200).json({
+            success: true,
+            orders,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
     }
-
-    const orders = await Order.find({
-      userId: req.user._id,
-    }).sort({ createdAt: -1 });
-
-    return res.status(200).json({
-      success: true,
-      orders,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
 };
