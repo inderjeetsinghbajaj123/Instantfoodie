@@ -22,3 +22,10 @@ export const getMyOrders = async () => {
   return data;
 
 };
+export const cancelOrder = async (orderId) => {
+  const { data } = await api.patch(
+    `/api/order/${orderId}`,
+    { orderStatus: "Cancelled" }
+  );
+  return data;
+};
