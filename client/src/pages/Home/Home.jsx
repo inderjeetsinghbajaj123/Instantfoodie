@@ -8,7 +8,7 @@ const Home = () => {
   const { cartCount } = useCart();
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-neutral-950 flex flex-col antialiased">
       <Navbar cartCount={cartCount} />
       <PromoCarousel />
       <CategorySection />
