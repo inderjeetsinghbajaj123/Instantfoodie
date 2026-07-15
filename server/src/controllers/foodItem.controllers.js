@@ -54,14 +54,14 @@ export const createFoodItem = async (req, res) => {
 
 // export const getAllFoodItems = async (req, res) => {
 //     try {
-//         const user = req.user;
+        // const user = req.user;
 
-//         if (user.role !== "restaurant") {
-//             return res.status(403).json({
-//                 success: false,
-//                 message: "Access denied. Only restaurant accounts can perform this action."
-//             });
-//         }
+        // if (user.role !== "restaurant") {
+        //     return res.status(403).json({
+        //         success: false,
+        //         message: "Access denied. Only restaurant accounts can perform this action."
+        //     });
+        // }
 
 //         const Restaurant = await restaurant.findOne({ owner: req.user._id }) //from authmiddleware take the user id to find teh restraurant 
 //         if (!Restaurant) {
@@ -87,6 +87,14 @@ export const createFoodItem = async (req, res) => {
 
 export const getAllFoodItems = async (req, res) => {
     try {
+         const user = req.user;
+
+        if (user.role !== "restaurant") {
+            return res.status(403).json({
+                success: false,
+                message: "Access denied. Only restaurant accounts can perform this action."
+            });
+        }
 
         const FoodItems = await foodItems.find({
             isAvailable:true
@@ -218,3 +226,4 @@ export const getFoodItemsByCategory = async (req, res) => {
         });
     }
 }
+

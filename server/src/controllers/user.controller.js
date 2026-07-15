@@ -1,4 +1,5 @@
 import User from "../models/user.js";
+import restaurant from "../models/restaurant.js";
 
 // Get logged-in user profile (Fast & simple)
 export const getProfile = async (req, res) => {
@@ -62,3 +63,22 @@ export const updateProfile = async (req, res) => {
     });
   }
 };
+
+export const getrestaurants = async (req, res) => {
+    try {
+         const restaurants = await restaurant.find().select("-__v -owner"); //Displaying different restaurants to the user
+
+        return res.status(200).json({
+            success:true,
+            restaurants:restaurants
+        });
+
+    } catch(error){
+
+        return res.status(500).json({
+            success:false,
+            message:error.message
+        });
+
+    }
+}

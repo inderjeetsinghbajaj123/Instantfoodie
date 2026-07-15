@@ -9,6 +9,7 @@ import userRouter from "./routes/user.route.js";
 import foodItemsRouter from "./routes/foodItem.route.js";
 import cartRouter from "./routes/cart.route.js";
 import orderRouter from "./routes/order.route.js";
+import adminRouter from "./routes/admin.route.js";
 
 
 const app = express();
@@ -44,6 +45,8 @@ app.use("/api/foodItems", foodItemsRouter);
 app.use("/api/cart", cartRouter);
 
 app.use("/api/order", orderRouter);
+
+app.use("/api/admin", adminRouter);
 
 // // Restaurant routes -> list restaurants, food items, menu
 

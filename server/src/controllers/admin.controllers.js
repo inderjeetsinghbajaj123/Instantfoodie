@@ -9,12 +9,17 @@ const cookieOptions = {
     maxAge: 7 * 24 * 60 * 60 * 1000
 };
 
-export const userRegister = async (req, res) => {
+export const adminRegister = async (req, res) => {
     // Expecting fullName from the request body
-    let { fullName, email, password,role} = req.body; 
+    let { fullName, email, password} = req.body; 
     try {
         if (!fullName || !email || !password) {
             return res.status(400).json({ message: 'Please fill all the fields' });
+        }
+
+        const existingAdmin = await User.findOne({role: "admin"});
+        if (existingAdmin) {
+            return res.status(400).json({success: false, message: 'Admin already exists' });
         }
 
         const userExists = await User.findOne({ email });
@@ -31,10 +36,10 @@ export const userRegister = async (req, res) => {
             fullName,
             email,
             password: hash,
-            role:role||"user" // Default role is "user" if not provided
+            role: "admin" // Default role is "admin"
         });
 
-        const token = Token(createUser.email, createUser._id,createUser.role);
+        const token = Token(createUser.email, createUser._id, createUser.role);
         res.cookie("Token", token, cookieOptions);
 
         return res.status(201).json({
@@ -51,8 +56,7 @@ export const userRegister = async (req, res) => {
     }
 };
 
-// ... userLogin and userLogout stay exactly the same as before
-export const userLogin = async (req, res) => {
+export const adminLogin = async (req, res) => {
     let { email, password } = req.body;
     try {
         if (!email || !password) {
@@ -64,18 +68,18 @@ export const userLogin = async (req, res) => {
             return res.status(404).json({ message: 'No user Found' });
         }
 
-        if(user.role !== "user") {
-            return res.status(403).json({ message: 'Access denied. Invalid Login API.' });
-        }
+        if (user.role !== 'admin') {
+            return res.status(403).json({ message: 'Only Admin Allowed' });
+        } 
 
         let check = await bcrypt.compare(password, user.password);
         if (check) {
             // Token utility is synchronous, no await needed
-            const token = Token(user.email, user._id,user.role);
-            
+            const token = Token(user.email, user._id, user.role);
+
             res.cookie("Token", token, cookieOptions);
-            
-            return res.status(200).json({ 
+
+            return res.status(200).json({
                 message: 'loggedIn successful',
                 user: {
                     id: user._id,
@@ -91,9 +95,9 @@ export const userLogin = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
-};
+}
 
-export const userLogout = async (req, res) => {
+export const adminLogout = async (req, res) => {
     try {
         // Clear cookie using the exact same options context it was created with
         res.clearCookie("Token", {
