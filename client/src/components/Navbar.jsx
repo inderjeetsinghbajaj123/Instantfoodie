@@ -34,11 +34,14 @@ const Navbar = ({ cartCount = 0 }) => {
             />
 
             {/* Inner logo housing */}
-            <div className="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-zinc-900">
-              <HiOutlineFire className="text-amber-500" size={22} />
+            <div className="relative z-10 flex items-center gap-2 justify-center h-10 px-2 sm:px-1 rounded-full bg-zinc-900">
+              <HiOutlineFire className="text-amber-500 shrink-0" size={22} />
+              <span className="hidden sm:inline text-white font-black tracking-tight text-lg pr-2">
+                InstantFoodie
+              </span>
             </div>
           </Link>
-
+          
           {/* Desktop links with animated underline */}
           <ul className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => {

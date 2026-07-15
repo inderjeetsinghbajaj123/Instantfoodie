@@ -81,6 +81,28 @@ export const CartProvider = ({ children }) => {
     loadCart();
   };
 
+  // ===== NEW: reorder items from a past order =====
+  const reorderItems = async (items) => {
+    try {
+      for (const item of items) {
+        const existing = cartItems.find(
+          (i) => i.foodItemId?._id === item.foodItemId
+        );
+
+        if (existing) {
+          await cartService.updateCart(existing._id, existing.quantity + item.quantity);
+        } else {
+          await cartService.addToCart(item.foodItemId, item.quantity);
+        }
+      }
+      await loadCart();
+      return { success: true };
+    } catch (err) {
+      console.log(err);
+      return { success: false };
+    }
+  };
+
   const cartCount = cartItems.reduce(
     (sum, item) => sum + item.quantity,
     0
@@ -104,6 +126,7 @@ export const CartProvider = ({ children }) => {
         removeFromCart,
         clearCart,
         loadCart,
+        reorderItems,
       }}
     >
       {children}
