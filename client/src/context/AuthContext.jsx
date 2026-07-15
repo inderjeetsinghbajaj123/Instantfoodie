@@ -27,40 +27,37 @@ export function AuthProvider({ children }) {
   }
 
 
-async function register({ fullName, email, password }) {
+  async function register({ fullName, email, password }) {
 
-  setAuthLoading(true);
+    setAuthLoading(true);
 
-  try {
+    try {
 
-    const data = await authService.register({
-      fullName,
-      email,
-      password,
-    });
+      const data = await authService.register({
+        fullName,
+        email,
+        password,
+      });
 
+      setUser(data.user);
 
-    setUser(data.user);
+      return {
+        success: true,
+      };
 
+    } catch (error) {
 
-    return {
-      success:true,
-    };
+      return {
+        success: false,
+        error: error?.response?.data?.message || "Signup failed",
+      };
 
+    } finally {
 
-  } catch(error){
+      setAuthLoading(false);
 
-    return {
-      success:false,
-      error:error?.response?.data?.message || "Signup failed",
-    };
-
-  } finally {
-
-    setAuthLoading(false);
-
+    }
   }
-}
 
 
   async function login({ email, password }) {
@@ -77,14 +74,14 @@ async function register({ fullName, email, password }) {
       setUser(data.user);
 
       return {
-        success:true,
+        success: true,
       };
 
-    } catch(error){
+    } catch (error) {
 
       return {
-        success:false,
-        error:error?.response?.data?.message || "Login failed",
+        success: false,
+        error: error?.response?.data?.message || "Login failed",
       };
 
     } finally {
@@ -95,14 +92,17 @@ async function register({ fullName, email, password }) {
   }
 
 
-
-  async function logout(){
+  async function logout() {
 
     await authService.logout();
     setUser(null);
 
   }
 
+
+  function updateUser(partialUser) {
+    setUser((prev) => ({ ...prev, ...partialUser }));
+  }
 
 
   return (
@@ -115,6 +115,7 @@ async function register({ fullName, email, password }) {
         register,
         login,
         logout,
+        updateUser,
       }}
     >
       {children}
@@ -124,12 +125,11 @@ async function register({ fullName, email, password }) {
 }
 
 
-
-export function useAuth(){
+export function useAuth() {
 
   const context = useContext(AuthContext);
 
-  if(!context){
+  if (!context) {
     throw new Error("useAuth must be used inside AuthProvider");
   }
 

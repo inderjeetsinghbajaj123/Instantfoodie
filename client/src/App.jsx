@@ -5,6 +5,7 @@ import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart/Cart";
+import Checkout from "./pages/Checkout/Checkout";
 import Order from "./pages/Order/Order";
 import Tracking from "./pages/Tracking/Tracking";
 import Favorites from "./pages/Favorites/Favorites";
@@ -32,6 +33,14 @@ function App() {
         element={
           <ProtectedRoute>
             <Cart />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/checkout"
+        element={
+          <ProtectedRoute>
+            <Checkout />
           </ProtectedRoute>
         }
       />
@@ -67,14 +76,6 @@ function App() {
           </ProtectedRoute>
         }
       />
-      <Route
-        path="/order"
-        element={
-          <ProtectedRoute>
-            <Order />
-          </ProtectedRoute>
-        }
-      /> 
     </Routes>
   );
 }
