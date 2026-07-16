@@ -14,7 +14,7 @@ router.post('/newFoodItem',authMiddleware , createFoodItem)
 
 router.get('/AllFoodItems',authMiddleware , getAllFoodItems)
 
-router.get('/public', getPublicFoodItems)
+router.get('/public', getPublicFoodItems) // for public access without authentication
 
 router.get('/category/:category', authMiddleware , getFoodItemsByCategory)
 
