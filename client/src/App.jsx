@@ -15,6 +15,7 @@ import Profile from "./pages/Profile/Profile";
 import RestaurantOrders from "./pages/RestaurantOrders/RestaurantOrders";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import RestaurantMenu from "./pages/RestaurantMenu/RestaurantMenu";
+import RestaurantSignup from "./pages/RestaurantSignup/RestaurantSignup";
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
       <Route path="/admin-login" element={<AdminLogin />} />
 
       <Route path="/signup" element={<Signup />} />
+      <Route path="/restaurant/signup" element={<RestaurantSignup />} />
 
 
       {/* User Protected */}
@@ -43,22 +45,22 @@ function App() {
         }
       />
       <Route
-  path="/restaurant-menu"
-  element={
-    <ProtectedRoute allowedRoles={["restaurant"]}>
-      <RestaurantMenu />
-    </ProtectedRoute>
-  }
-/>
+        path="/restaurant-menu"
+        element={
+          <ProtectedRoute allowedRoles={["restaurant"]}>
+            <RestaurantMenu />
+          </ProtectedRoute>
+        }
+      />
 
-<Route
-  path="/restaurant-profile"
-  element={
-    <ProtectedRoute allowedRoles={["restaurant"]}>
-      <RestaurantProfile />
-    </ProtectedRoute>
-  }
-/>
+      <Route
+        path="/restaurant-profile"
+        element={
+          <ProtectedRoute allowedRoles={["restaurant"]}>
+            <RestaurantProfile />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/cart"

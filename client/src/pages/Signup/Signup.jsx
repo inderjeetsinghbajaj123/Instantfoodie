@@ -11,7 +11,7 @@ const Signup = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("user");
+  const role = "user";
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { register, authLoading } = useAuth();
@@ -156,20 +156,7 @@ const Signup = () => {
               placeholder="Password"
               className="w-full bg-neutral-950/40 rounded-xl px-4 py-3 sm:py-3.5 pr-14 text-white placeholder:text-neutral-600 outline-none border border-neutral-800/80 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all duration-200 text-sm sm:text-base"
             />
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="w-full bg-neutral-950/40 rounded-xl px-4 py-3 mb-4 text-white border border-neutral-800 outline-none focus:border-amber-500"
-            >
-              <option value="user">
-                Customer
-              </option>
 
-              <option value="restaurant">
-                Restaurant
-              </option>
-
-            </select>
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
@@ -200,6 +187,15 @@ const Signup = () => {
             >
               Log in
             </Link>
+            <p className="text-center text-neutral-500 text-xs mt-3">
+              Own a restaurant?{" "}
+              <Link
+                to="/restaurant/signup"
+                className="text-amber-500 font-semibold hover:underline"
+              >
+                Register here
+              </Link>
+            </p>
           </p>
         </motion.form>
       </div>
