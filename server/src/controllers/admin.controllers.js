@@ -11,15 +11,15 @@ const cookieOptions = {
 
 export const adminRegister = async (req, res) => {
     // Expecting fullName from the request body
-    let { fullName, email, password} = req.body; 
+    let { fullName, email, password } = req.body;
     try {
         if (!fullName || !email || !password) {
             return res.status(400).json({ message: 'Please fill all the fields' });
         }
 
-        const existingAdmin = await User.findOne({role: "admin"});
+        const existingAdmin = await User.findOne({ role: "admin" });
         if (existingAdmin) {
-            return res.status(400).json({success: false, message: 'Admin already exists' });
+            return res.status(400).json({ success: false, message: 'Admin already exists' });
         }
 
         const userExists = await User.findOne({ email });
@@ -70,7 +70,7 @@ export const adminLogin = async (req, res) => {
 
         if (user.role !== 'admin') {
             return res.status(403).json({ message: 'Only Admin Allowed' });
-        } 
+        }
 
         let check = await bcrypt.compare(password, user.password);
         if (check) {
@@ -111,3 +111,69 @@ export const adminLogout = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 };
+
+export const getUsers = async (req, res) => {
+    try {
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Only Admin Allowed' });
+        }
+
+        const users = await User.find({ role: "user" }).select('-password');
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+export const getRestaurants = async (req, res) => {
+    try {
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Only Admin Allowed' });
+        }
+
+        const restaurants = await User.find({ role: "restaurant" }).select('-password');
+        return res.status(200).json({ restaurants });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+export const getUserById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Only Admin Allowed' });
+        }
+
+        const user = await User.findById(id).select('-password');
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        return res.status(200).json({ success: true, user:user });
+
+
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+
+export const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Only Admin Allowed' });
+        }
+
+        const user = await User.findOneAndDelete({ _id: id })
+        return res.status(200).json({
+            success: true,
+            message: 'User deleted successfully',
+            user: user.fullName
+        });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+}
+
+

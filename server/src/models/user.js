@@ -43,6 +43,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["user", "restaurant", "admin"], // Added restaurant just in case you need it!
       default: "user",
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false,
     }
   },
   {
