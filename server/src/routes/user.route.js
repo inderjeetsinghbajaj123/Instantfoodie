@@ -1,7 +1,12 @@
 import { Router } from "express";
-import { getProfile, updateProfile , getrestaurants, getFoodItemsByRestaurant } from "../controllers/user.controller.js";
+import {
+  getProfile,
+  updateProfile,
+  getrestaurants,
+  getFoodItemsByRestaurant,
+} from "../controllers/user.controller.js";
 // Fix the folder name here by adding the 's'
-import authMiddleware from "../middlewares/auth.middleware.js"; 
+import authMiddleware from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
@@ -12,11 +17,9 @@ router.get("/profile", authMiddleware, getProfile);
 router.put("/profile", authMiddleware, updateProfile);
 
 // display the restaurants available to the user does not require authentication
-router.get('/restaurants', getrestaurants) 
+router.get("/restaurants", getrestaurants);
 
 //display the fooditems from the restaurant selected by the user and does not require authentication
-router.get('/restaurants/:restaurantId/fooditems', getFoodItemsByRestaurant)
-
-
+router.get("/restaurants/:restaurantId/fooditems", getFoodItemsByRestaurant);
 
 export default router;

@@ -1,7 +1,6 @@
 import User from "../models/user.js";
 import FoodItem from "../models/foodItem.js";
 
-// Add Food Item to Favourites
 export const addFavourite = async (req, res) => {
   try {
     const { foodItemId } = req.params;
@@ -26,7 +25,7 @@ export const addFavourite = async (req, res) => {
     }
 
     const alreadyExists = user.favouriteItems.some(
-      (id) => id.toString() === foodItemId
+      (id) => id.toString() === foodItemId,
     );
 
     if (alreadyExists) {
@@ -52,7 +51,6 @@ export const addFavourite = async (req, res) => {
   }
 };
 
-// Get All Favourite Food Items
 export const getFavourites = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).populate("favouriteItems");
@@ -77,7 +75,6 @@ export const getFavourites = async (req, res) => {
   }
 };
 
-// Remove One Favourite Food Item
 export const removeFavourite = async (req, res) => {
   try {
     const { foodItemId } = req.params;
@@ -92,7 +89,7 @@ export const removeFavourite = async (req, res) => {
     }
 
     const exists = user.favouriteItems.some(
-      (id) => id.toString() === foodItemId
+      (id) => id.toString() === foodItemId,
     );
 
     if (!exists) {
@@ -103,7 +100,7 @@ export const removeFavourite = async (req, res) => {
     }
 
     user.favouriteItems = user.favouriteItems.filter(
-      (id) => id.toString() !== foodItemId
+      (id) => id.toString() !== foodItemId,
     );
 
     await user.save();
@@ -121,7 +118,6 @@ export const removeFavourite = async (req, res) => {
   }
 };
 
-// Remove All Favourite Food Items
 export const removeAllFavourites = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);

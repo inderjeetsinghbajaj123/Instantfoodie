@@ -1,25 +1,15 @@
 export const validTransition = (currentStatus, newStatus) => {
+  const validTransitions = {
+    Placed: ["Preparing", "Cancelled"],
 
-    const validTransitions = {
+    Preparing: ["Out for Delivery"],
 
-        Placed: [
-            "Preparing",
-            "Cancelled"
-        ],
+    "Out for Delivery": ["Delivered"],
 
-        Preparing: [
-            "Out for Delivery"
-        ],
+    Delivered: [],
 
-        "Out for Delivery": [
-            "Delivered"
-        ],
+    Cancelled: [],
+  };
 
-        Delivered: [],
-
-        Cancelled: []
-
-    };
-
-    return validTransitions[currentStatus]?.includes(newStatus) || false;
+  return validTransitions[currentStatus]?.includes(newStatus) || false;
 };

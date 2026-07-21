@@ -5,7 +5,7 @@ import {
   removeFavourite,
   removeAllFavourites,
 } from "../controllers/favourite.controllers.js";
-import  isAuthenticated  from "../middlewares/auth.middleware.js";
+import isAuthenticated from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 

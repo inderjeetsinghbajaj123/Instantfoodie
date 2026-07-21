@@ -1,77 +1,77 @@
-//order schema 
-import mongoose from "mongoose"
+//order schema
+import mongoose from "mongoose";
 
-const orderSchema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema(
+  {
     orderId: {
-        type: String,
-        required: true,
-        trim: true
+      type: String,
+      required: true,
+      trim: true,
     },
     userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     restaurantId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Restaurant',
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Restaurant",
+      required: true,
     },
     items: {
-        type: [
-            {
-                foodItemId: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: 'foodItems',
-                    required: true,
-                },
-                name: {
-                    type: String,
-                    required: true,
-                    trim: true
-                },
-                price: {
-                    type: Number,
-                    required: true,
-                },
-                quantity: {
-                    type: Number,
-                    required: true,
-                    min:1
-
-                },
-                subtotal: {
-                    type: Number,
-                    required: true,
-                    min:1
-                }
-            }
-        ]
+      type: [
+        {
+          foodItemId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "foodItems",
+            required: true,
+          },
+          name: {
+            type: String,
+            required: true,
+            trim: true,
+          },
+          price: {
+            type: Number,
+            required: true,
+          },
+          quantity: {
+            type: Number,
+            required: true,
+            min: 1,
+          },
+          subtotal: {
+            type: Number,
+            required: true,
+            min: 1,
+          },
+        },
+      ],
     },
     totalAmount: {
-        type: Number,
-        required: true,
-        min:1
+      type: Number,
+      required: true,
+      min: 1,
     },
     deliveryAddress: {
-        type: String,
-        trim: true
+      type: String,
+      trim: true,
     },
     orderStatus: {
-        type: String,
-       enum: [
+      type: String,
+      enum: [
         "Placed",
         "Preparing",
         "Out for Delivery",
         "Delivered",
-        "Cancelled"
-    ],
-        default: "Placed"
-    }
+        "Cancelled",
+      ],
+      default: "Placed",
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
 
-},
-    {
-        timestamps: true
-    })
-
-export default mongoose.model('Order', orderSchema)
+export default mongoose.model("Order", orderSchema);

@@ -1,15 +1,15 @@
 import express from "express";
 import {
-    adminLogin,
-    adminLogout,
-    getAllUsers,
-    getAllRestaurants,
-    getUserById,
-    deleteUser,
-    updateRestaurantStatus,
-    getAllOrders,
-    deleteRestaurant,
-    deleteFoodItem,
+  adminLogin,
+  adminLogout,
+  getAllUsers,
+  getAllRestaurants,
+  getUserById,
+  deleteUser,
+  updateRestaurantStatus,
+  getAllOrders,
+  deleteRestaurant,
+  deleteFoodItem,
 } from "../controllers/admin.controllers.js";
 
 import authMiddleware from "../middlewares/auth.middleware.js";

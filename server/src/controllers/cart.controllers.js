@@ -84,7 +84,6 @@ export const getCart = async (req, res) => {
   }
 };
 
-// Update Quantity
 export const updateCartItem = async (req, res) => {
   try {
     if (req.user.role !== "user") {
@@ -113,7 +112,6 @@ export const updateCartItem = async (req, res) => {
       });
     }
 
-    // Check ownership
     if (existingCart.userId.toString() !== req.user._id.toString()) {
       return res.status(403).json({
         success: false,
@@ -132,7 +130,6 @@ export const updateCartItem = async (req, res) => {
       message: "Cart updated successfully",
       data: updatedCart,
     });
-
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -141,7 +138,6 @@ export const updateCartItem = async (req, res) => {
   }
 };
 
-// Remove Single Item
 export const removeCartItem = async (req, res) => {
   try {
     if (req.user.role !== "user") {
@@ -177,7 +173,6 @@ export const removeCartItem = async (req, res) => {
   }
 };
 
-// Clear Cart
 export const clearCart = async (req, res) => {
   try {
     if (req.user.role !== "user") {

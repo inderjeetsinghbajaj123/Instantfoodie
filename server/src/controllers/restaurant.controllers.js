@@ -3,13 +3,8 @@ import Restaurant from "../models/restaurant.js";
 // Create a new restaurant
 export const createRestaurant = async (req, res) => {
   try {
-    const {
-      restaurantName,
-      cuisine,
-      description,
-      restaurantAddress,
-      isOpen,
-    } = req.body;
+    const { restaurantName, cuisine, description, restaurantAddress, isOpen } =
+      req.body;
 
     const restaurant = new Restaurant({
       restaurantName,
@@ -36,7 +31,6 @@ export const createRestaurant = async (req, res) => {
   }
 };
 
-// Get My Restaurants
 export const getMyRestaurants = async (req, res) => {
   try {
     const restaurants = await Restaurant.find({ owner: req.user._id });
@@ -55,7 +49,6 @@ export const getMyRestaurants = async (req, res) => {
   }
 };
 
-// Update Restaurant
 export const updateRestaurant = async (req, res) => {
   try {
     const { id } = req.params;
@@ -69,7 +62,7 @@ export const updateRestaurant = async (req, res) => {
       {
         new: true,
         runValidators: true,
-      }
+      },
     );
 
     if (!restaurant) {

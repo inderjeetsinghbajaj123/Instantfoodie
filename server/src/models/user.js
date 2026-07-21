@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema(
   {
     fullName: {
-      // Fixed: Changed from fullname to fullName to match your controllers
       type: String,
       required: true,
       trim: true,
@@ -42,7 +41,7 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["user", "restaurant", "admin"], // Added restaurant just in case you need it!
+      enum: ["user", "restaurant", "admin"],
       default: "user",
     },
 

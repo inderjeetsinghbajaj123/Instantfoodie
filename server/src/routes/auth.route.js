@@ -1,10 +1,10 @@
 import { Router } from "express";
 import {
-    userRegister,
-    userLogin,
-    userLogout,
-    restaurantRegister,
-    restaurantLogin,
+  userRegister,
+  userLogin,
+  userLogout,
+  restaurantRegister,
+  restaurantLogin,
 } from "../controllers/auth.controllers.js";
 
 const router = Router();
