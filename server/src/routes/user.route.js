@@ -5,21 +5,36 @@ import {
   getrestaurants,
   getFoodItemsByRestaurant,
 } from "../controllers/user.controller.js";
-// Fix the folder name here by adding the 's'
 import authMiddleware from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-// Get logged-in user profile
+/**
+ * @route GET /api/user/profile
+ * @description Get the profile of the authenticated user
+ * @access User
+ */
 router.get("/profile", authMiddleware, getProfile);
 
-// Update logged-in user profile
+/**
+ * @route PUT /api/user/profile
+ * @description Update the profile of the authenticated user
+ * @access User
+ */
 router.put("/profile", authMiddleware, updateProfile);
 
-// display the restaurants available to the user does not require authentication
+/**
+ * @route GET /api/user/restaurants
+ * @description Get all available restaurants
+ * @access Public
+ */
 router.get("/restaurants", getrestaurants);
 
-//display the fooditems from the restaurant selected by the user and does not require authentication
+/**
+ * @route GET /api/user/restaurants/:restaurantId/fooditems
+ * @description Get all food items for the selected restaurant
+ * @access Public
+ */
 router.get("/restaurants/:restaurantId/fooditems", getFoodItemsByRestaurant);
 
 export default router;

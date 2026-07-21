@@ -9,26 +9,46 @@ import {
 
 const router = Router();
 
-// ================= USER =================
-
-// Register User
+/**
+ * @route POST /api/auth/register
+ * @description Register a new user account
+ * @access Public
+ */
 router.post("/register", userRegister);
 
-// Login User
+/**
+ * @route POST /api/auth/login
+ * @description Authenticate user and return JWT token
+ * @access Public
+ */
 router.post("/login", userLogin);
 
-// Logout User
+/**
+ * @route POST /api/auth/logout
+ * @description Logout authenticated user
+ * @access User
+ */
 router.post("/logout", userLogout);
 
-// ================= RESTAURANT =================
-
-// Register Restaurant Owner
+/**
+ * @route POST /api/auth/restaurant/register
+ * @description Register a new restaurant owner account
+ * @access Public
+ */
 router.post("/restaurant/register", restaurantRegister);
 
-// Login Restaurant Owner
+/**
+ * @route POST /api/auth/restaurant/login
+ * @description Authenticate restaurant owner and return JWT token
+ * @access Public
+ */
 router.post("/restaurant/login", restaurantLogin);
 
-// Logout Restaurant Owner
+/**
+ * @route POST /api/auth/restaurant/logout
+ * @description Logout authenticated restaurant owner
+ * @access Restaurant
+ */
 router.post("/restaurant/logout", userLogout);
 
 export default router;

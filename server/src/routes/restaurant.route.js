@@ -10,23 +10,35 @@ import authorizeRole from "../middlewares/role.middleware.js";
 
 const router = express.Router();
 
-// Create a new restaurant
+/**
+ * @route POST /api/restaurant
+ * @description Create a new restaurant for the authenticated restaurant owner
+ * @access Restaurant
+ */
 router.post("/", authMiddleware, authorizeRole("restaurant"), createRestaurant);
 
-// Get My restaurants
+/**
+ * @route GET /api/restaurant/my-restaurants
+ * @description Get all restaurants owned by the authenticated restaurant owner
+ * @access Restaurant
+ */
 router.get(
   "/my-restaurants",
   authMiddleware,
   authorizeRole("restaurant"),
-  getMyRestaurants,
+  getMyRestaurants
 );
 
-// Update a restaurant
+/**
+ * @route PUT /api/restaurant/:id
+ * @description Update restaurant details
+ * @access Restaurant
+ */
 router.put(
   "/:id",
   authMiddleware,
   authorizeRole("restaurant"),
-  updateRestaurant,
+  updateRestaurant
 );
 
 export default router;

@@ -10,19 +10,39 @@ import {
 
 const router = express.Router();
 
-// Add item to cart
+/**
+ * @route POST /api/cart
+ * @description Add a food item to the authenticated user's cart
+ * @access User
+ */
 router.post("/", authMiddleware, addToCart);
 
-// Get logged-in user's cart
+/**
+ * @route GET /api/cart
+ * @description Get the authenticated user's cart
+ * @access User
+ */
 router.get("/", authMiddleware, getCart);
 
-// Update quantity of a cart item
+/**
+ * @route PATCH /api/cart/:cartId
+ * @description Update the quantity of an item in the authenticated user's cart
+ * @access User
+ */
 router.patch("/:cartId", authMiddleware, updateCartItem);
 
-// Remove a single item from cart
+/**
+ * @route DELETE /api/cart/:cartId
+ * @description Remove a specific item from the authenticated user's cart
+ * @access User
+ */
 router.delete("/:cartId", authMiddleware, removeCartItem);
 
-// Clear entire cart
+/**
+ * @route DELETE /api/cart
+ * @description Clear all items from the authenticated user's cart
+ * @access User
+ */
 router.delete("/", authMiddleware, clearCart);
 
 export default router;
