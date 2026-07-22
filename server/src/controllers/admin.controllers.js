@@ -12,53 +12,6 @@ const cookieOptions = {
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 
-export const adminRegister = async (req, res) => {
-  try {
-    const { fullName, email, password } = req.body;
-
-    if (!fullName || !email || !password) {
-      return res.status(400).json({
-        success: false,
-        message: "Please fill all the fields",
-      });
-    }
-
-    const existingAdmin = await User.findOne({ email });
-
-    if (existingAdmin) {
-      return res.status(400).json({
-        success: false,
-        message: "Admin already exists",
-      });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const admin = await User.create({
-      fullName,
-      email,
-      password: hashedPassword,
-      role: "admin",
-    });
-
-    return res.status(201).json({
-      success: true,
-      message: "Admin registered successfully",
-      admin: {
-        id: admin._id,
-        fullName: admin.fullName,
-        email: admin.email,
-        role: admin.role,
-      },
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
 export const adminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -212,7 +165,7 @@ export const deleteUser = async (req, res) => {
 
 export const getAllRestaurants = async (req, res) => {
   try {
-    const restaurants = await Restaurant.find().populate("owner", "-password");
+    const restaurants = await Restaurant.find().populate("owner", "fullName email");
 
     return res.status(200).json({
       success: true,
@@ -313,6 +266,24 @@ export const deleteRestaurant = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Restaurant deleted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const getAllFoodItems = async (req, res) => {
+  try {
+    const allFooditems = await FoodItem.find().populate(
+      "restaurantId",
+      "restaurantName",
+    );
+    return res.status(200).json({
+      success: true,
+      fooditems: allFooditems,
     });
   } catch (error) {
     return res.status(500).json({

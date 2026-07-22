@@ -26,7 +26,7 @@ router.get(
   "/my-restaurants",
   authMiddleware,
   authorizeRole("restaurant"),
-  getMyRestaurants
+  getMyRestaurants,
 );
 
 /**
@@ -38,7 +38,7 @@ router.put(
   "/:id",
   authMiddleware,
   authorizeRole("restaurant"),
-  updateRestaurant
+  updateRestaurant,
 );
 
 export default router;

@@ -1,6 +1,5 @@
 import express from "express";
 import {
-  adminRegister,
   adminLogin,
   adminLogout,
   getAllUsers,
@@ -11,6 +10,7 @@ import {
   getAllOrders,
   deleteRestaurant,
   deleteFoodItem,
+  getAllFoodItems,
 } from "../controllers/admin.controllers.js";
 
 import authMiddleware from "../middlewares/auth.middleware.js";
@@ -19,19 +19,11 @@ import authorizeRole from "../middlewares/role.middleware.js";
 const router = express.Router();
 
 /**
- * @route POST /api/admin/register
- * @description Register a new admin account
- * @access Public
- */
-router.post("/register", adminRegister);
-
-/**
  * @route POST /api/admin/login
  * @description Authenticate admin and return JWT token
  * @access Public
  */
 router.post("/login", adminLogin);
-
 
 // Protected Admin Routes
 router.use(authMiddleware);
@@ -100,5 +92,11 @@ router.delete("/food-item/:id", deleteFoodItem);
  */
 router.get("/orders", getAllOrders);
 
+/**
+ * @route GET /api/admin/all-food-items
+ * @description fetch all food items from every restaurant
+ * @access Admin
+ */
+router.get("/all-food-items", getAllFoodItems);
 
 export default router;
