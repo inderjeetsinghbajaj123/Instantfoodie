@@ -14,29 +14,27 @@ import favouriteRouter from "./routes/favourite.route.js";
 
 const app = express();
 app.set("trust proxy", 1);
-app.use(express.json()); // to parse incoming JSON requests
+app.use(express.json());
 
-app.use(cookieParser()); // to read cookies (used for login token
-app.use(express.urlencoded({ extended: true })); //to parse the data sent through form
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
-// Allow requests from frontend (React app) with cookies enabled
-const allowedOrigins = [
-    "http://localhost:5173",
-    process.env.CLIENT_URL,
-].filter(Boolean);
+const allowedOrigins = ["http://localhost:5173", process.env.CLIENT_URL].filter(
+  Boolean,
+);
 
 app.use(
-    cors({
-        origin: allowedOrigins,
-        credentials: true,
-    })
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  }),
 );
 
 app.get("/", (req, res) => {
-    res.json({
-        success: true,
-        message: "InstantFoodie API Running"
-    });
+  res.json({
+    success: true,
+    message: "InstantFoodie API Running",
+  });
 });
 
 app.use("/api/auth", authRouter);
