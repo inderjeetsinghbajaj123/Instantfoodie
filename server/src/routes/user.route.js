@@ -4,8 +4,10 @@ import {
   updateProfile,
   getrestaurants,
   getFoodItemsByRestaurant,
+  updatePassword,
 } from "../controllers/user.controller.js";
 import authMiddleware from "../middlewares/auth.middleware.js";
+import authorizeRole from "../middlewares/role.middleware.js";
 
 const router = Router();
 
@@ -15,6 +17,25 @@ const router = Router();
  * @access User
  */
 router.get("/profile", authMiddleware, getProfile);
+
+/**
+ * @route PUT /api/user/profile
+ * @description Update the profile of the authenticated user
+ * @access User
+ */
+router.put("/profile", authMiddleware, updateProfile);
+
+/**
+ * @route PATCH /api/users/password-update
+ * @description Update the password of the authenticated user
+ * @access User
+ */
+router.patch(
+  "/password-update",
+  authMiddleware,
+  authorizeRole(["user"]),
+  updatePassword,
+);
 
 /**
  * @route PUT /api/user/profile
