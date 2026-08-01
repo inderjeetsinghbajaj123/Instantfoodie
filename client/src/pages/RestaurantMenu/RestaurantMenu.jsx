@@ -139,7 +139,7 @@ function RestaurantMenu() {
   }
 
   return (
-    <div className="min-h-screen bg-[#1E1512]">
+    <div className="min-h-screen bg-[#050505]">
       <Navbar />
 
       <div className="w-[95%] max-w-5xl mx-auto py-10">

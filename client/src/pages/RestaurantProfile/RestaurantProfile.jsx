@@ -110,7 +110,7 @@ function RestaurantProfile() {
   }
 
   return (
-    <div className="min-h-screen bg-[#1E1512]">
+    <div className="min-h-screen bg-[#050505]">
       <Navbar />
 
       <div className="w-[95%] max-w-2xl mx-auto py-10">

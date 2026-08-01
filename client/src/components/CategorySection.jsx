@@ -210,9 +210,11 @@ const CategorySection = () => {
                 <div className="p-5 bg-gradient-to-b from-transparent to-black/30">
                   <h3 className="font-extrabold text-white text-base sm:text-lg mb-1 tracking-tight truncate group-hover:text-amber-400 transition-colors duration-300">
                     {dish.name}
-                  </h3><p className="text-sm text-neutral-400 mb-4 line-clamp-2">
-  {dish.description || "No description available"}
-</p>
+                  </h3>
+                  <div className="flex items-center gap-1 text-xs font-bold text-neutral-400 mb-4">
+                    <HiStar className="text-amber-500" size={15} />
+                    <span className="text-neutral-200">{dish.rating}</span>
+                  </div>
                   <div className="flex items-center justify-between text-xs font-semibold border-t border-neutral-900/60 pt-4">
                     <span className="text-neutral-500 tracking-wide">
                       Delivery · {dish.deliveryTime}

@@ -196,6 +196,13 @@ const Navbar = ({ cartCount = 0 }) => {
                 <div className="absolute right-0 mt-2 w-56 bg-zinc-900 border border-neutral-700 rounded-xl shadow-xl z-50 overflow-hidden">
                   {!isAuthenticated ? (
                     <>
+                      <Link
+                        to="/login"
+                        onClick={() => setMenuOpen(false)}
+                        className="block px-4 py-3 text-white hover:bg-neutral-800"
+                      >
+                        Login as Customer
+                      </Link>
 
                       <Link
                         to="/restaurant-login"

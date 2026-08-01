@@ -76,10 +76,13 @@ const Promo = () => {
   const slide = slides[index];
 
   return (
-    <div className="relative w-[95%] max-w-7xl mx-auto mt-6 rounded-[28px] overflow-hidden group/promo shadow-[0_24px_50px_rgba(0,0,0,0.6)] ">
-      
+    <div className="relative w-[95%] max-w-7xl mx-auto mt-6 rounded-[28px] p-[1.5px] overflow-hidden group/promo shadow-[0_24px_50px_rgba(0,0,0,0.6)]">
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 bg-[conic-gradient(from_0deg,transparent_30%,#f59e0b_50%,transparent_70%)] opacity-60 group-hover/promo:opacity-100 transition-opacity duration-500 animate-streak-active pointer-events-none"
+        style={{ width: "200%", paddingBottom: "200%" }}
+      />
 
-      <div className="relative z-10 rounded-[28px] border border-neutral-900 overflow-hidden h-48 sm:h-72 md:h-[450px] bg-neutral-950">
+      <div className="relative z-10 rounded-[28px] border border-neutral-900 overflow-hidden h-48 sm:h-72 md:h-[450px]">
         <AnimatePresence mode="wait">
           <motion.div
             key={slide.id}

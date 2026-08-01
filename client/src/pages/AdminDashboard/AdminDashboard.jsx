@@ -52,7 +52,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#1E1512] text-white py-12 px-4">
+    <div className="min-h-screen bg-[#050505] text-white py-12 px-4">
       <div className="mx-auto max-w-5xl rounded-3xl border border-neutral-800 bg-[#111111]/90 p-8 shadow-[0_30px_80px_rgba(0,0,0,0.5)]">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between mb-8">
           <div>

@@ -69,7 +69,7 @@ const Order = () => {
   });
 
   return (
-    <div className="min-h-screen bg-[#1E1512]">
+    <div className="min-h-screen bg-[#050505]">
       <Navbar cartCount={cartCount} />
 
       <div className="w-[95%] max-w-3xl mx-auto mt-12 pb-20 px-2 sm:px-4">
