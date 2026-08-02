@@ -317,37 +317,6 @@ export const getAllOrders = async (req, res) => {
   }
 };
 
-//   try {
-//     const { id } = req.params;
-
-//     const restaurant = await Restaurant.findById(id);
-
-//     if (!restaurant) {
-//       return res.status(404).json({
-//         success: false,
-//         message: "Restaurant not found",
-//       });
-//     }
-
-//     // Delete all food items belonging to this restaurant
-//     await FoodItem.deleteMany({
-//       restaurantId: restaurant._id,
-//     });
-
-//     // Delete the restaurant
-//     await Restaurant.findByIdAndDelete(id);
-
-//     return res.status(200).json({
-//       success: true,
-//       message: "Restaurant deleted successfully",
-//     });
-//   } catch (error) {
-//     return res.status(500).json({
-//       success: false,
-//       message: error.message,
-//     });
-//   }
-// };
 export const deleteRestaurant = async (req, res) => {
   try {
     const { id } = req.params;
